@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Akshit Sabharwal - Youssef Hamzo
 * Professors: Paulo Sousa
 ************************************************************
  _________________________________
@@ -74,6 +74,7 @@
 ReaderPointer readerCreate(boa_intg size, boa_intg increment, boa_intg mode) {
 	ReaderPointer readerPointer;
 	/* TO_DO: Defensive programming */
+	//add if statement 
 	/* TO_DO: Adjust the values according to parameters */
 	size = READER_DEFAULT_SIZE;
 	increment = READER_DEFAULT_INCREMENT;
