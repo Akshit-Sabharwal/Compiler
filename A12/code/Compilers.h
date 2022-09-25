@@ -48,8 +48,8 @@
  */
  
 /* Logical constants - adapt for your language */
-#define BOA_TRUE  1
-#define BOA_FALSE 0
+#define VIPER_TRUE  1
+#define VIPER_FALSE 0
 
 /*
 ------------------------------------------------------------
@@ -59,16 +59,16 @@ NOTE: Some types may not be directly used by your language,
 ------------------------------------------------------------
 */
 /* TO_DO: Define your typedefs */
-typedef char			boa_char;
-typedef int				boa_intg;
-typedef float			boa_real;
-typedef void			boa_void;
+typedef char			viper_char;
+typedef int				viper_intg;
+typedef float			viper_real;
+typedef void			viper_void;
 
-typedef unsigned char	boa_boln;
-typedef unsigned char	boa_byte;
+typedef unsigned char	viper_boln;
+typedef unsigned char	viper_byte;
 
-typedef long			boa_long;
-typedef double			boa_doub;
+typedef long			viper_long;
+typedef double			viper_doub;
 
 /*
 ------------------------------------------------------------
@@ -90,11 +90,11 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-boa_intg mainReader  (boa_intg argc, boa_char** argv);
+viper_intg mainReader  (viper_intg argc, viper_char** argv);
 /*
-boa_intg mainScanner (boa_intg argc, boa_char** argv);
-boa_intg mainParser  (boa_intg argc, boa_char** argv);
+viper_intg mainScanner (viper_intg argc, viper_char** argv);
+viper_intg mainParser  (viper_intg argc, viper_char** argv);
 */
-boa_void printLogo();
+viper_void printLogo();
 
 #endif
