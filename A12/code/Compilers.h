@@ -66,7 +66,7 @@ typedef void			viper_void;
 
 typedef unsigned char	viper_boln;
 typedef unsigned char	viper_byte;
-
+typedef const           viper_const;
 typedef long			viper_long;
 typedef double			viper_doub;
 
