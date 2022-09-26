@@ -113,6 +113,9 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 	viper_char* tempReader = NULL;
 	viper_intg newSize = 0;
 	/* TO_DO: Defensive programming */
+	if (ch < 0 || ch > 127)
+		return NULL;
+	if (readerPointer->histogram[ch]++);
 	/* TO_DO: Reset Realocation */
 	/* TO_DO: Test the inclusion of chars */
 	if (readerPointer->position.wrte * (viper_intg)sizeof(viper_char) < readerPointer->size) {
@@ -122,13 +125,35 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 		switch (readerPointer->mode) {
 		case MODE_FIXED:
 			return NULL;
+
 		case MODE_ADDIT:
 			/* TO_DO: Adjust new size */
+			newSize = readerPointer->size + readerPointer->size;
 			/* TO_DO: Defensive programming */
+			if (newSize < 0)
+				return NULL;
+			tempReader = realloc(readerPointer->content, newSize);
+			if (!tempReader)
+				return NULL;
+			if (tempReader != readerPointer->content)
+				readerPointer->flags |= SET_REL;
+			readerPointer->content = tempReader;
+			readerPointer->size = newSize;
 			break;
+
 		case MODE_MULTI:
 			/* TO_DO: Adjust new size */
+			newSize = readerPointer->size * readerPointer->size;
 			/* TO_DO: Defensive programming */
+			if (newSize < 0)
+				return NULL;
+			tempReader = realloc(readerPointer->content, newSize);
+			if (!tempReader)
+				return NULL;
+			if (tempReader != readerPointer->content)
+				readerPointer->flags |= SET_REL;
+			readerPointer->content = tempReader;
+			readerPointer->size = newSize;
 			break;
 		default:
 			return NULL;

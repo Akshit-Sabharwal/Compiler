@@ -84,6 +84,23 @@ enum READER_MODE {
 /* TO_DO: BIT 1: REL = Relocation */
 /* TO_DO: BIT 0: END = EndOfBuffer */
 
+#define SET_END 0x00 /*0000.0001 - OR Operator*/
+#define RESET_END 0xFE /*1111.1110 - AND Operator*/
+#define CHECK_END SET_END /*AND Operator*/
+
+#define SET_REL 0x02 /*1111.0010 - OR Operator*/
+#define RESET_REL 0xFD /*1111.1110 - AND Operator*/
+#define CHECK_REL SET_REL /*AND Operator*/
+
+
+#define SET_EMP 0x04   /*0000.0100*/ 
+#define RESET_EMP  0xFB   /*1111.1011*/
+#define CHECK_EMP SET_EMP 
+
+#define SET_FUL    0x08    /*0000.1000*/
+#define RESET_FUL   0xF7   /*1111.0111*/
+#define CHECK_FUL  SET_FUL
+
 #define NCHAR				128			/* Chars from 0 to 127 */
 
 /* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (SOFIA) .................................. */
