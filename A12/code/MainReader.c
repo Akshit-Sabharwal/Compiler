@@ -66,7 +66,7 @@
 #define ANSI_C 0
 #if defined(__STDC__)
 #undef ANSI_C
-#define ANSI_C 1
+#define ANSI_C 11
 #endif
 
 /*

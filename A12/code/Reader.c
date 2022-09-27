@@ -74,14 +74,18 @@
 ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mode) {
 	ReaderPointer readerPointer;
 	/* TO_DO: Defensive programming */
-	//add if statement 
+	if (size < 0 || (increment < 0))
+		return NULL;
+
 	/* TO_DO: Adjust the values according to parameters */
 	size = READER_DEFAULT_SIZE;
 	increment = READER_DEFAULT_INCREMENT;
 	mode = MODE_FIXED;
 	readerPointer = (ReaderPointer)calloc(1, sizeof(BufferReader));
 	/* TO_DO: Defensive programming */
+	
 	readerPointer->content = (viper_char*)malloc(size);
+
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Initialize the histogram */
 	readerPointer->size = size;
@@ -226,7 +230,12 @@ viper_boln readerFree(ReaderPointer const readerPointer) {
 */
 viper_boln readerIsFull(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Check flag if buffer is FUL */
+	if (readerPointer->flags == CHECK_FUL)
+		return VIPER_TRUE;
+
 	return VIPER_FALSE;
 }
 
@@ -247,7 +256,11 @@ viper_boln readerIsFull(ReaderPointer const readerPointer) {
 */
 viper_boln readerIsEmpty(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Check flag if buffer is EMP */
+	if (readerPointer->flags == CHECK_EMP)
+		return VIPER_TRUE;
 	return VIPER_FALSE;
 }
 
@@ -294,8 +307,15 @@ viper_intg readerPrint(ReaderPointer const readerPointer) {
 	viper_intg cont = 0;
 	viper_char c;
 	/* TO_DO: Defensive programming (including invalid chars) */
+	if (!readerPointer)
+		return READER_ERROR;
 	c = readerGetChar(readerPointer);
-	/* TO_DO: Check flag if buffer EOB has achieved */
+	if (c < 0 || c> 127)
+		return NULL;
+	/* TO_DO: Check flag if buffer End of buffer (EOB) has achieved */
+	if (readerIsFull(readerPointer)) {
+		printf("Reader is Full");
+	}
 	while (cont < readerPointer->position.wrte) {
 		cont++;
 		printf("%c", c);
@@ -464,6 +484,8 @@ viper_char* readerGetContent(ReaderPointer const readerPointer, viper_intg pos) 
 */
 viper_intg readerGetPosRead(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Return read */
 	return 0;
 }
@@ -484,9 +506,11 @@ viper_intg readerGetPosRead(ReaderPointer const readerPointer) {
 *************************************************************
 */
 viper_intg readerGetPosWrte(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return wrte */
-	return 0;
+	/* Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
+	/* Return wrte */
+	return readerPointer->position.wrte;
 }
 
 

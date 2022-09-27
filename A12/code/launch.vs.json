@@ -5,8 +5,8 @@
     {
       "type": "default",
       "project": "CMakeLists.txt",
-      "projectTarget": "BoaCompiler.exe",
-      "name": "BoaCompiler.exe",
+      "projectTarget": "ViperCompiler.exe",
+      "name": "ViperCompiler.exe",
       "args": [
         "R",
         "README.txt"
