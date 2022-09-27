@@ -612,3 +612,20 @@ viper_intg readerShowStat(ReaderPointer const readerPointer) {
 	/* TO_DO: Updates the histogram */
 	return 0;
 }
+
+/*
+*New function: print the histogram from the content
+*/
+/*viper_void readerPrintHistogram(ReaderPointer const readerPointer) {
+	viper_intg counter = 0;
+	viper_intg numChars = 0;
+	viper_char ch = '0';
+	for (counter = 0; counter < NHCAR; counter++) {
+		numChars = readerPointer->histogram[counter];
+		if (numChars > 0) {
+			ch = readerPointer->content[counter];
+			printf("%s%d%s%d%s", "Reader[", ch, "]=", numChars, "\n");
+		}
+	}
+}
+*/
