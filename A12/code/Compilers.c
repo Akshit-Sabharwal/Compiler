@@ -3,6 +3,8 @@
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2022
 * Author: Svillen Ranev - Paulo Sousa
+* Modified by: Youssef Hamzo - Akshit Sabharwal
+* Lab Section: 301
 * Professors: Paulo Sousa
 ************************************************************
  _________________________________
@@ -123,7 +125,7 @@ viper_void printLogo() {
 	printf("%s%s%s%s%s%s%s%s%s%s%s%s",
 		" _________________________________ \n",
 		"|                                 |\n",
-		"| ....... 'BOA' LANGUAGE ........ |\n",
+		"| ....... 'Viper' LANGUAGE .......|\n",
 		"|     __    __    __    __        |\n",
 		"|    /  \\  /  \\  /  \\  /  \\       |\n",
 		"| __/  __\\/  __\\/  __\\/  __\\__    |\n",
