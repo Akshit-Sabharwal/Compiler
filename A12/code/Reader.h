@@ -46,11 +46,11 @@
 #ifndef READER_H_
 #define READER_H_
 
-/* TIP: Do not change pragmas, unless necessary .......................................*/
-/*#pragma warning(1:4001) *//*to enforce C89 type comments  - to make //comments an warning */
-/*#pragma warning(error:4001)*//* to enforce C89 comments - to make // comments an error */
+ /* TIP: Do not change pragmas, unless necessary .......................................*/
+ /*#pragma warning(1:4001) *//*to enforce C89 type comments  - to make //comments an warning */
+ /*#pragma warning(error:4001)*//* to enforce C89 comments - to make // comments an error */
 
-/* standard header files */
+ /* standard header files */
 #include <stdio.h>  /* standard input/output */
 #include <malloc.h> /* for dynamic memory allocation*/
 #include <limits.h> /* implementation-defined data type ranges and limits */
@@ -84,12 +84,12 @@ enum READER_MODE {
 /* TO_DO: BIT 1: REL = Relocation */
 /* TO_DO: BIT 0: END = EndOfBuffer */
 
-#define SET_END 0x00 /*0000.0001 - OR Operator*/
+#define SET_END 0x01 /*0000.0001 - OR Operator*/
 #define RESET_END 0xFE /*1111.1110 - AND Operator*/
 #define CHECK_END SET_END /*AND Operator*/
 
 #define SET_REL 0x02 /*1111.0010 - OR Operator*/
-#define RESET_REL 0xFD /*1111.1110 - AND Operator*/
+#define RESET_REL 0xFD /*1111.1101 - AND Operator*/
 #define CHECK_REL SET_REL /*AND Operator*/
 
 
@@ -116,7 +116,7 @@ typedef struct position {
 
 /* Buffer structure */
 typedef struct bufferReader {
-	viper_char*	content;			/* pointer to the beginning of character array (character buffer) */
+	viper_char* content;			/* pointer to the beginning of character array (character buffer) */
 	viper_intg	size;				/* current dynamic memory size (in bytes) allocated to character buffer */
 	viper_intg	increment;			/* character array increment factor */
 	viper_intg	mode;				/* operational mode indicator */
@@ -127,28 +127,28 @@ typedef struct bufferReader {
 
 /* FUNCTIONS DECLARATION:  .................................. */
 /* General Operations */
-ReaderPointer	readerCreate		(viper_intg, viper_intg, viper_intg);
-ReaderPointer	readerAddChar		(ReaderPointer const, viper_char);
-viper_boln		readerClear		    (ReaderPointer const);
-viper_boln		readerFree		    (ReaderPointer const);
-viper_boln		readerIsFull		(ReaderPointer const);
-viper_boln		readerIsEmpty		(ReaderPointer const);
-viper_boln		readerSetMark		(ReaderPointer const, viper_intg);
-viper_intg		readerPrint		    (ReaderPointer const);
-viper_intg		readerLoad			(ReaderPointer const, FILE* const);
-viper_boln		readerRecover		(ReaderPointer const);
-viper_boln		readerRetract		(ReaderPointer const);
-viper_boln		readerRestore		(ReaderPointer const);
+ReaderPointer	readerCreate(viper_intg, viper_intg, viper_intg);
+ReaderPointer	readerAddChar(ReaderPointer const, viper_char);
+viper_boln		readerClear(ReaderPointer const);
+viper_boln		readerFree(ReaderPointer const);
+viper_boln		readerIsFull(ReaderPointer const);
+viper_boln		readerIsEmpty(ReaderPointer const);
+viper_boln		readerSetMark(ReaderPointer const, viper_intg);
+viper_intg		readerPrint(ReaderPointer const);
+viper_intg		readerLoad(ReaderPointer const, FILE* const);
+viper_boln		readerRecover(ReaderPointer const);
+viper_boln		readerRetract(ReaderPointer const);
+viper_boln		readerRestore(ReaderPointer const);
 /* Getters */
-viper_char		readerGetChar		(ReaderPointer const);
-viper_char*		readerGetContent	(ReaderPointer const, viper_intg);
-viper_intg		readerGetPosRead	(ReaderPointer const);
-viper_intg		readerGetPosWrte	(ReaderPointer const);
-viper_intg		readerGetPosMark	(ReaderPointer const);
-viper_intg		readerGetSize		(ReaderPointer const);
-viper_intg		readerGetInc		(ReaderPointer const);
-viper_intg		readerGetMode		(ReaderPointer const);
-viper_byte		readerGetFlags		(ReaderPointer const);
-viper_intg		readerShowStat		(ReaderPointer const);
+viper_char		readerGetChar(ReaderPointer const);
+viper_char* readerGetContent(ReaderPointer const, viper_intg);
+viper_intg		readerGetPosRead(ReaderPointer const);
+viper_intg		readerGetPosWrte(ReaderPointer const);
+viper_intg		readerGetPosMark(ReaderPointer const);
+viper_intg		readerGetSize(ReaderPointer const);
+viper_intg		readerGetInc(ReaderPointer const);
+viper_intg		readerGetMode(ReaderPointer const);
+viper_byte		readerGetFlags(ReaderPointer const);
+viper_intg		readerShowStat(ReaderPointer const);
 
 #endif

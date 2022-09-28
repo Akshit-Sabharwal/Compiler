@@ -5,18 +5,18 @@
 * Author: Akshit Sabharwal - Youssef Hamzo
 * Professors: Paulo Sousa
 ************************************************************
- _________________________________
-|                                 |
-| ........ BOA LANGUAGE ......... |
-|     __    __    __    __        |
-|    /  \  /  \  /  \  /  \       |
-| __/  __\/  __\/  __\/  __\__    |
-| _/  /__/  /__/  /__/  /_____|   |
-|  \_/ \   / \   / \   / \  \___  |
-|       \_/   \_/   \_/   \___o_> |
-|                                 | 
-| .. ALGONQUIN COLLEGE - 2022F .. |
-|_________________________________|
+__________________________________
+| .........VIPER LANGUAGE........|
+|   \ \        |___  ___|----\   |
+|    \ \       / /|  |  |  -  \  |
+|     \ \     / / |  |  | | | |  |
+|      \ \   / /  |  |  |  -  /  |
+|       \ \_/ /   |  |  |  __/   |
+|        \   /    |  |  |  |     |
+|         \_/  |________|__|     |
+|				                 |
+| ....ALGONQUIN COLLEGE- 2022F...|
+|________________________________|
 
 */
 //updates here
@@ -62,7 +62,7 @@
 *   increment = increment factor
 *   mode = operational mode
 * Return value: bPointer (pointer to reader)
-* Algorithm: Allocation of memory according to inicial (default) values.
+* Algorithm: Allocation of memory according to initial (default) values.
 * TODO ......................................................
 *	- Adjust datatypes for your LANGUAGE.
 *   - Use defensive programming
@@ -70,28 +70,46 @@
 *	- Check flags.
 *************************************************************
 */
+/*Char Things remember 
+check the Hex Table appropraiate rwange would be 32 and 126, as there are some undefined 
+char values
 
+*/
 ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mode) {
 	ReaderPointer readerPointer;
 	/* TO_DO: Defensive programming */
 	if (size < 0 || (increment < 0))
 		return NULL;
 
+
 	/* TO_DO: Adjust the values according to parameters */
-	size = READER_DEFAULT_SIZE;
-	increment = READER_DEFAULT_INCREMENT;
-	mode = MODE_FIXED;
+	if (!increment)
+		mode = MODE_FIXED;
+	if (!size) {
+		size = READER_DEFAULT_SIZE;
+		increment = READER_DEFAULT_INCREMENT;
+	}
+	if (mode != MODE_FIXED || mode != MODE_ADDIT || mode != MODE_MULTI)
+		return NULL;
+	
+	
 	readerPointer = (ReaderPointer)calloc(1, sizeof(BufferReader));
 	/* TO_DO: Defensive programming */
+	if (readerPointer != NULL) {
+		readerPointer->content = (viper_char*)malloc(size);
+	}
 	
-	readerPointer->content = (viper_char*)malloc(size);
 
 	/* TO_DO: Defensive programming */
-	/* TO_DO: Initialize the histogram */
-	readerPointer->size = size;
-	readerPointer->increment = increment;
-	readerPointer->mode = mode;
+	if (readerPointer->content != NULL) {
+		/* TO_DO: Initialize the histogram */
+		readerPointer->size = size;
+		readerPointer->increment = increment;
+		readerPointer->mode = mode;
+	}
+	
 	/* TO_DO: Initialize flags */
+	readerPointer->flags = READER_DEFAULT_FLAG | SET_EMP;
 	/* TO_DO: The created flag must be signalized as EMP */
 	return readerPointer;
 }
@@ -188,6 +206,8 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 */
 viper_boln readerClear(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Adjust flags original */
 	return VIPER_TRUE;
 }
@@ -344,6 +364,8 @@ viper_intg readerLoad(ReaderPointer const readerPointer, FILE* const fileDescrip
 	viper_intg size = 0;
 	viper_char c;
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	c = (viper_char)fgetc(fileDescriptor);
 	while (!feof(fileDescriptor)) {
 		if (!readerAddChar(readerPointer, c)) {
