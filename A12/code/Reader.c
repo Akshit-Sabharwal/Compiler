@@ -73,44 +73,44 @@ __________________________________
 /*Char Things remember 
 check the Hex Table appropraiate rwange would be 32 and 126, as there are some undefined 
 char values
-
 */
 ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mode) {
 	ReaderPointer readerPointer;
 	/* TO_DO: Defensive programming */
-	if (size < 0 || (increment < 0))
+	if (size < 0 || (increment < 0) || size > READER_MAX_SIZE )
 		return NULL;
-
-
+		
 	/* TO_DO: Adjust the values according to parameters */
-	if (!increment)
-		mode = MODE_FIXED;
+
 	if (!size) {
 		size = READER_DEFAULT_SIZE;
 		increment = READER_DEFAULT_INCREMENT;
+		mode = MODE_FIXED;
 	}
-	if (mode != MODE_FIXED || mode != MODE_ADDIT || mode != MODE_MULTI)
+	if (mode != MODE_FIXED && mode != MODE_ADDIT && mode != MODE_MULTI)
 		return NULL;
-	
 	
 	readerPointer = (ReaderPointer)calloc(1, sizeof(BufferReader));
 	/* TO_DO: Defensive programming */
-	if (readerPointer != NULL) {
-		readerPointer->content = (viper_char*)malloc(size);
+	if (!readerPointer) {
+		return NULL;
 	}
-	
+	readerPointer->content = (viper_char*)malloc(size);
 
 	/* TO_DO: Defensive programming */
-	if (readerPointer->content != NULL) {
+	if (!readerPointer->content) {
 		/* TO_DO: Initialize the histogram */
+		for (int i = 0; i < NCHAR; i++)
+			readerPointer->histogram[i] = 0;
 		readerPointer->size = size;
 		readerPointer->increment = increment;
 		readerPointer->mode = mode;
 	}
 	
 	/* TO_DO: Initialize flags */
-	readerPointer->flags = READER_DEFAULT_FLAG | SET_EMP;
 	/* TO_DO: The created flag must be signalized as EMP */
+	readerPointer->flags = READER_DEFAULT_FLAG | SET_EMP;
+	
 	return readerPointer;
 }
 
@@ -135,11 +135,14 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 	viper_char* tempReader = NULL;
 	viper_intg newSize = 0;
 	/* TO_DO: Defensive programming */
-	if (ch < 0 || ch > 127)
+	if (!readerPointer)
 		return NULL;
 	if (readerPointer->histogram[ch]++);
 	/* TO_DO: Reset Realocation */
+
 	/* TO_DO: Test the inclusion of chars */
+	if (ch < 0 || ch >= NCHAR)
+		return NULL;
 	if (readerPointer->position.wrte * (viper_intg)sizeof(viper_char) < readerPointer->size) {
 		/* TO_DO: This buffer is NOT full */
 	} else {
@@ -417,6 +420,8 @@ viper_boln readerRecover(ReaderPointer const readerPointer) {
 */
 viper_boln readerRetract(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return VIPER_FALSE;
 	/* TO_DO: Retract (return 1 pos read) */
 	return VIPER_TRUE;
 }
@@ -438,7 +443,11 @@ viper_boln readerRetract(ReaderPointer const readerPointer) {
 */
 viper_boln readerRestore(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+     
+	if (!readerPointer)
+		return NULL;
 	/* TO_DO: Restore positions (read/mark) */
+	 
 	return VIPER_TRUE;
 }
 

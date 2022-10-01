@@ -5,18 +5,18 @@
 * Author: Svillen Ranev - Paulo Sousa
 * Professors: Paulo Sousa
 ************************************************************
- _________________________________
-|                                 |
-| ........ BOA LANGUAGE ......... |
-|     __    __    __    __        |
-|    /  \  /  \  /  \  /  \       |
-| __/  __\/  __\/  __\/  __\__    |
-| _/  /__/  /__/  /__/  /_____|   |
-|  \_/ \   / \   / \   / \  \___  |
-|       \_/   \_/   \_/   \___o_> |
-|                                 |
-| .. ALGONQUIN COLLEGE - 2022F .. |
-|_________________________________|
+__________________________________
+| .........VIPER LANGUAGE........|
+|   \ \        |___  ___|----\   |
+|    \ \       / /|  |  |  -  \  |
+|     \ \     / / |  |  | | | |  |
+|      \ \   / /  |  |  |  -  /  |
+|       \ \_/ /   |  |  |  __/   |
+|        \   /    |  |  |  |     |
+|         \_/  |________|__|     |
+|				                 |
+| ....ALGONQUIN COLLEGE- 2022F...|
+|________________________________|
 
 */
 
@@ -76,7 +76,6 @@ enum READER_MODE {
 #define READER_DEFAULT_SIZE			250		/* default initial buffer reader capacity */
 #define READER_DEFAULT_INCREMENT	10		/* default increment factor */
 
-/* Add your bit-masks constant definitions here - Defined for BOA */
 /* BITS                                (7654.3210) */
 #define READER_DEFAULT_FLAG 0x00 	/* (0000.0000)_2 = (000)_10 */
 /* TO_DO: BIT 3: FUL = Full */
