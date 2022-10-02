@@ -56,6 +56,7 @@ __________________________________
 	factor and operational mode ('f', 'a', 'm')
 * Author: Svillen Ranev / Paulo Sousa
 * History/Versions: S22
+* Updated by: Youssef Hamzo, Akshit Sabharwal
 * Called functions: calloc(), malloc()
 * Parameters:
 *   size = initial capacity
@@ -63,11 +64,8 @@ __________________________________
 *   mode = operational mode
 * Return value: bPointer (pointer to reader)
 * Algorithm: Allocation of memory according to initial (default) values.
-* TODO ......................................................
-*	- Adjust datatypes for your LANGUAGE.
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Check flags.
+* 
+* 
 *************************************************************
 */
 /*Char Things remember 
@@ -83,7 +81,6 @@ ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mod
 	/* TO_DO: Adjust the values according to parameters */
 	if (increment == 0 && mode != MODE_FIXED) {
 		increment = READER_DEFAULT_INCREMENT;
-
 	}
 	
 	if (size == 0) {
@@ -239,7 +236,7 @@ viper_boln readerClear(ReaderPointer const readerPointer) {
 *************************************************************
 */
 viper_boln readerFree(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
+
 	if (!readerPointer)
 		return VIPER_FALSE;
 	/* TO_DO: Free pointers */
@@ -410,7 +407,12 @@ viper_intg readerLoad(ReaderPointer const readerPointer, FILE* const fileDescrip
 */
 viper_boln readerRecover(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return VIPER_FALSE;
 	/* TO_DO: Recover positions */
+	readerPointer->position.read = 0;
+	readerPointer->position.wrte=0;
+
 	return VIPER_TRUE;
 }
 
@@ -433,7 +435,10 @@ viper_boln readerRetract(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	if (!readerPointer)
 		return VIPER_FALSE;
+	if (readerPointer->position.read <= 0)
+		return VIPER_FALSE;
 	/* TO_DO: Retract (return 1 pos read) */
+	readerPointer->position.read--;
 	return VIPER_TRUE;
 }
 
@@ -458,7 +463,7 @@ viper_boln readerRestore(ReaderPointer const readerPointer) {
 	if (!readerPointer)
 		return VIPER_FALSE;
 	/* TO_DO: Restore positions (read/mark) */
-	 
+	readerPointer->position.read = readerPointer->position.mark;
 	return VIPER_TRUE;
 }
 
@@ -693,7 +698,6 @@ viper_intg readerShowStat(ReaderPointer const readerPointer) {
 	int cnt = 0;
 	for (int i = 0; i < NCHAR; i++) {
 		if (readerPointer->histogram[i] > 0) {
-		//This is my test file.	
 			cnt++;
 		}
 	}
