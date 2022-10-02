@@ -1,3 +1,4 @@
+
 /*
 ************************************************************
 * COMPILERS COURSE - Algonquin College
@@ -7,7 +8,7 @@
 ************************************************************
 __________________________________
 | .........VIPER LANGUAGE........|
-|   \ \        |___  ___|----\   |
+|   \ \        |___  ___|    \   |
 |    \ \       / /|  |  |  -  \  |
 |     \ \     / / |  |  | | | |  |
 |      \ \   / /  |  |  |  -  /  |
@@ -17,7 +18,6 @@ __________________________________
 |				                 |
 | ....ALGONQUIN COLLEGE- 2022F...|
 |________________________________|
-
 */
 //updates here
 /*
@@ -49,33 +49,32 @@ __________________________________
 #include "Reader.h"
 #endif
 
-/*
-***********************************************************
-* Function name: readerCreate
-* Purpose: Creates the buffer reader according to capacity, increment
-	factor and operational mode ('f', 'a', 'm')
-* Author: Svillen Ranev / Paulo Sousa
-* History/Versions: S22
-* Called functions: calloc(), malloc()
-* Parameters:
-*   size = initial capacity
-*   increment = increment factor
-*   mode = operational mode
-* Return value: bPointer (pointer to reader)
-* Algorithm: Allocation of memory according to initial (default) values.
-* TODO ......................................................
-*	- Adjust datatypes for your LANGUAGE.
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Check flags.
-*************************************************************
-*/
-/*Char Things remember 
-check the Hex Table appropraiate rwange would be 32 and 126, as there are some undefined 
-char values
-
-*/
-ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mode) {
+ /*
+ ***********************************************************
+ * Function name: readerCreate
+ * Purpose: Creates the buffer reader according to capacity, increment
+	 factor and operational mode ('f', 'a', 'm')
+ * Author: Svillen Ranev / Paulo Sousa
+ * History/Versions: S22
+ * Called functions: calloc(), malloc()
+ * Parameters:
+ *   size = initial capacity
+ *   increment = increment factor
+ *   mode = operational mode
+ * Return value: bPointer (pointer to reader)
+ * Algorithm: Allocation of memory according to initial (default) values.
+ * TODO ......................................................
+ *	- Adjust datatypes for your LANGUAGE.
+ *   - Use defensive programming
+ *	- Check boundary conditions
+ *	- Check flags.
+ *************************************************************
+ */
+ /*Char Things remember
+ check the Hex Table appropraiate rwange would be 32 and 126, as there are some undefined
+ char values
+ */
+	ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mode) {
 	ReaderPointer readerPointer;
 	/* TO_DO: Defensive programming */
 	if (size < 0 || (increment < 0))
@@ -91,14 +90,14 @@ ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mod
 	}
 	if (mode != MODE_FIXED || mode != MODE_ADDIT || mode != MODE_MULTI)
 		return NULL;
-	
-	
+
+
 	readerPointer = (ReaderPointer)calloc(1, sizeof(BufferReader));
 	/* TO_DO: Defensive programming */
 	if (readerPointer != NULL) {
 		readerPointer->content = (viper_char*)malloc(size);
 	}
-	
+
 
 	/* TO_DO: Defensive programming */
 	if (readerPointer->content != NULL) {
@@ -107,7 +106,7 @@ ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mod
 		readerPointer->increment = increment;
 		readerPointer->mode = mode;
 	}
-	
+
 	/* TO_DO: Initialize flags */
 	readerPointer->flags = READER_DEFAULT_FLAG | SET_EMP;
 	/* TO_DO: The created flag must be signalized as EMP */
@@ -142,7 +141,8 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 	/* TO_DO: Test the inclusion of chars */
 	if (readerPointer->position.wrte * (viper_intg)sizeof(viper_char) < readerPointer->size) {
 		/* TO_DO: This buffer is NOT full */
-	} else {
+	}
+	else {
 		/* TO_DO: Reset Full flag */
 		switch (readerPointer->mode) {
 		case MODE_FIXED:
@@ -206,8 +206,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 */
 viper_boln readerClear(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-	if (!readerPointer)
-		return READER_ERROR;
+
 	/* TO_DO: Adjust flags original */
 	return VIPER_TRUE;
 }
@@ -228,8 +227,10 @@ viper_boln readerClear(ReaderPointer const readerPointer) {
 */
 viper_boln readerFree(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-	if (!readerPointer)
+	if (!readerPointer) {
 		return VIPER_FALSE;
+	}
+
 	/* TO_DO: Free pointers */
 	return VIPER_TRUE;
 }
@@ -418,6 +419,7 @@ viper_boln readerRecover(ReaderPointer const readerPointer) {
 viper_boln readerRetract(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Retract (return 1 pos read) */
+
 	return VIPER_TRUE;
 }
 
