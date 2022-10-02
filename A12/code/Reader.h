@@ -87,9 +87,9 @@ enum READER_MODE {
 #define RESET_END 0xFE /*1111.1110 - AND Operator*/
 #define CHECK_END SET_END /*AND Operator*/
 
-#define SET_REL 0x02 /*1111.0010 - OR Operator*/
-#define RESET_REL 0xFD /*1111.1101 - AND Operator*/
-#define CHECK_REL SET_REL /*AND Operator*/
+#define SET_RLB 0x02 /*1111.0010 - OR Operator*/
+#define RESET_RLB 0xFD /*1111.1101 - AND Operator*/
+#define CHECK_RLB SET_REL /*AND Operator*/
 
 
 #define SET_EMP 0x04   /*0000.0100*/ 
