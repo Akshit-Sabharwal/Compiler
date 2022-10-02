@@ -1,4 +1,3 @@
-
 /*
 ************************************************************
 * COMPILERS COURSE - Algonquin College
@@ -49,69 +48,74 @@ __________________________________
 #include "Reader.h"
 #endif
 
-/*
-***********************************************************
-* Function name: readerCreate
-* Purpose: Creates the buffer reader according to capacity, increment
-	factor and operational mode ('f', 'a', 'm')
-* Author: Svillen Ranev / Paulo Sousa
-* History/Versions: S22
-* Called functions: calloc(), malloc()
-* Parameters:
-*   size = initial capacity
-*   increment = increment factor
-*   mode = operational mode
-* Return value: bPointer (pointer to reader)
-* Algorithm: Allocation of memory according to initial (default) values.
-* TODO ......................................................
-*	- Adjust datatypes for your LANGUAGE.
-*   - Use defensive programming
-*	- Check boundary conditions
-*	- Check flags.
-*************************************************************
-*/
-/*Char Things remember 
-check the Hex Table appropraiate rwange would be 32 and 126, as there are some undefined 
-char values
-*/
-ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mode) {
+ /*
+ ***********************************************************
+ * Function name: readerCreate
+ * Purpose: Creates the buffer reader according to capacity, increment
+	 factor and operational mode ('f', 'a', 'm')
+ * Author: Svillen Ranev / Paulo Sousa
+ * History/Versions: S22
+ * Called functions: calloc(), malloc()
+ * Parameters:
+ *   size = initial capacity
+ *   increment = increment factor
+ *   mode = operational mode
+ * Return value: bPointer (pointer to reader)
+ * Algorithm: Allocation of memory according to initial (default) values.
+ * TODO ......................................................
+ *	- Adjust datatypes for your LANGUAGE.
+ *   - Use defensive programming
+ *	- Check boundary conditions
+ *	- Check flags.
+ *************************************************************
+ */
+ /*Char Things remember
+ check the Hex Table appropraiate rwange would be 32 and 126, as there are some undefined
+ char values
+ */
 ReaderPointer readerCreate(viper_intg size, viper_intg increment, viper_intg mode) {
 	ReaderPointer readerPointer;
 	/* TO_DO: Defensive programming */
-	if (size < 0 || (increment < 0) || size > READER_MAX_SIZE )
+	if (size < 0 || (increment < 0))
 		return NULL;
-		
-	/* TO_DO: Adjust the values according to parameters */
 
-	if (!size) {
-		size = READER_DEFAULT_SIZE;
+	/* TO_DO: Adjust the values according to parameters */
+	if (increment == 0 && mode != MODE_FIXED) {
 		increment = READER_DEFAULT_INCREMENT;
-		mode = MODE_FIXED;
+
 	}
+
+	if (size == 0) {
+		size = READER_DEFAULT_SIZE;
+		//increment = READER_DEFAULT_INCREMENT;
+		//mode = MODE_FIXED;
+	}//f a m
 	if (mode != MODE_FIXED && mode != MODE_ADDIT && mode != MODE_MULTI)
 		return NULL;
-	
+
 	readerPointer = (ReaderPointer)calloc(1, sizeof(BufferReader));
 	/* TO_DO: Defensive programming */
-	if (!readerPointer) {
+	if (!readerPointer)
 		return NULL;
-	}
+
 	readerPointer->content = (viper_char*)malloc(size);
 
 	/* TO_DO: Defensive programming */
-	if (!readerPointer->content) {
-		/* TO_DO: Initialize the histogram */
-		for (int i = 0; i < NCHAR; i++)
-			readerPointer->histogram[i] = 0;
-		readerPointer->size = size;
-		readerPointer->increment = increment;
-		readerPointer->mode = mode;
-	}
+	if (!readerPointer->content)
+		return NULL;
+	/* TO_DO: Initialize the histogram */
+	for (int i = 0; i < NCHAR; i++)
+		readerPointer->histogram[i] = 0;
+
+	readerPointer->size = size;
+	readerPointer->increment = increment;
+	readerPointer->mode = mode;
+
 
 	/* TO_DO: Initialize flags */
 	/* TO_DO: The created flag must be signalized as EMP */
 	readerPointer->flags = READER_DEFAULT_FLAG | SET_EMP;
-	
+
 	return readerPointer;
 }
 
@@ -138,14 +142,20 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 	/* TO_DO: Defensive programming */
 	if (!readerPointer)
 		return NULL;
-	if (readerPointer->histogram[ch]++);
-	/* TO_DO: Reset Realocation */
 
+	/* TO_DO: Reset Realocation */
+	readerPointer->flags &= RESET_RLB;
 	/* TO_DO: Test the inclusion of chars */
 	if (ch < 0 || ch >= NCHAR)
 		return NULL;
 	if (readerPointer->position.wrte * (viper_intg)sizeof(viper_char) < readerPointer->size) {
 		/* TO_DO: This buffer is NOT full */
+		readerPointer->content[readerPointer->position.wrte++] = ch;
+		/* TO_DO: Updates histogram */
+
+		readerPointer->histogram[ch]++;
+		return readerPointer;
+
 	}
 	else {
 		/* TO_DO: Reset Full flag */
@@ -155,43 +165,37 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 
 		case MODE_ADDIT:
 			/* TO_DO: Adjust new size */
-			newSize = readerPointer->size + readerPointer->size;
+			newSize = readerPointer->size + readerPointer->increment;
 			/* TO_DO: Defensive programming */
 			if (newSize < 0)
 				return NULL;
-			tempReader = realloc(readerPointer->content, newSize);
-			if (!tempReader)
-				return NULL;
-			if (tempReader != readerPointer->content)
-				readerPointer->flags |= SET_REL;
-			readerPointer->content = tempReader;
-			readerPointer->size = newSize;
 			break;
-
 		case MODE_MULTI:
 			/* TO_DO: Adjust new size */
-			newSize = readerPointer->size * readerPointer->size;
+			newSize = readerPointer->size * readerPointer->increment;
 			/* TO_DO: Defensive programming */
 			if (newSize < 0)
 				return NULL;
-			tempReader = realloc(readerPointer->content, newSize);
-			if (!tempReader)
-				return NULL;
-			if (tempReader != readerPointer->content)
-				readerPointer->flags |= SET_REL;
-			readerPointer->content = tempReader;
-			readerPointer->size = newSize;
 			break;
 		default:
 			return NULL;
 		}
 		/* TO_DO: New reader allocation */
-		/* TO_DO: Defensive programming */
-		/* TO_DO: Check Relocation */
+		tempReader = realloc(readerPointer->content, newSize);
+		if (!tempReader)
+			return NULL;
+		if (tempReader != readerPointer->content)
+			readerPointer->flags |= SET_RLB;
+
+		readerPointer->content = tempReader;
+		readerPointer->size = newSize;
+
 	}
 	/* TO_DO: Add the char */
 	readerPointer->content[readerPointer->position.wrte++] = ch;
 	/* TO_DO: Updates histogram */
+
+	readerPointer->histogram[ch]++;
 	return readerPointer;
 }
 
@@ -211,8 +215,12 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, viper_char ch) {
 */
 viper_boln readerClear(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-
+	if (!readerPointer)
+		return VIPER_FALSE;
 	/* TO_DO: Adjust flags original */
+	free(readerPointer->content);
+	readerPointer->flags = READER_DEFAULT_FLAG;
+
 	return VIPER_TRUE;
 }
 
@@ -232,11 +240,11 @@ viper_boln readerClear(ReaderPointer const readerPointer) {
 */
 viper_boln readerFree(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-	if (!readerPointer) {
+	if (!readerPointer)
 		return VIPER_FALSE;
-	}
-
 	/* TO_DO: Free pointers */
+	free(readerPointer->content);
+	free(readerPointer);
 	return VIPER_TRUE;
 }
 
@@ -337,7 +345,7 @@ viper_intg readerPrint(ReaderPointer const readerPointer) {
 		return READER_ERROR;
 	c = readerGetChar(readerPointer);
 	if (c < 0 || c> 127)
-		return NULL;
+		return READER_ERROR;
 	/* TO_DO: Check flag if buffer End of buffer (EOB) has achieved */
 	if (readerIsFull(readerPointer)) {
 		printf("Reader is Full");
@@ -402,7 +410,11 @@ viper_intg readerLoad(ReaderPointer const readerPointer, FILE* const fileDescrip
 */
 viper_boln readerRecover(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return VIPER_FALSE;
 	/* TO_DO: Recover positions */
+	readerPointer->position.mark = 0;
+	readerPointer->position.read = 0;
 	return VIPER_TRUE;
 }
 
@@ -426,7 +438,7 @@ viper_boln readerRetract(ReaderPointer const readerPointer) {
 	if (!readerPointer)
 		return VIPER_FALSE;
 	/* TO_DO: Retract (return 1 pos read) */
-
+	readerPointer->position.read--;
 	return VIPER_TRUE;
 }
 
@@ -447,11 +459,11 @@ viper_boln readerRetract(ReaderPointer const readerPointer) {
 */
 viper_boln readerRestore(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-     
+
 	if (!readerPointer)
-		return NULL;
+		return VIPER_FALSE;
 	/* TO_DO: Restore positions (read/mark) */
-	 
+	readerPointer->position.read = readerPointer->position.mark;
 	return VIPER_TRUE;
 }
 
@@ -473,6 +485,8 @@ viper_boln readerRestore(ReaderPointer const readerPointer) {
 */
 viper_char readerGetChar(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Check condition to read/wrte */
 	/* TO_DO: Set EOB flag */
 	/* TO_DO: Reset EOB flag */
@@ -497,8 +511,10 @@ viper_char readerGetChar(ReaderPointer const readerPointer) {
 */
 viper_char* readerGetContent(ReaderPointer const readerPointer, viper_intg pos) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return NULL;
 	/* TO_DO: Return content (string) */
-	return NULL;
+	return readerPointer->content;
 }
 
 
@@ -522,7 +538,7 @@ viper_intg readerGetPosRead(ReaderPointer const readerPointer) {
 	if (!readerPointer)
 		return READER_ERROR;
 	/* TO_DO: Return read */
-	return 0;
+	return readerPointer->position.read;
 }
 
 
@@ -565,8 +581,10 @@ viper_intg readerGetPosWrte(ReaderPointer const readerPointer) {
 */
 viper_intg readerGetPosMark(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Return mark */
-	return 0;
+	return readerPointer->position.mark;
 }
 
 
@@ -586,8 +604,11 @@ viper_intg readerGetPosMark(ReaderPointer const readerPointer) {
 */
 viper_intg readerGetSize(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Return size */
-	return 0;
+	return readerPointer->size;
+
 }
 
 /*
@@ -606,8 +627,10 @@ viper_intg readerGetSize(ReaderPointer const readerPointer) {
 */
 viper_intg readerGetInc(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Return increment */
-	return 0;
+	return readerPointer->increment;
 }
 
 /*
@@ -626,8 +649,10 @@ viper_intg readerGetInc(ReaderPointer const readerPointer) {
 */
 viper_intg readerGetMode(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Return mode */
-	return 0;
+	return readerPointer->mode;
 }
 
 
@@ -646,9 +671,10 @@ viper_intg readerGetMode(ReaderPointer const readerPointer) {
 *************************************************************
 */
 viper_byte readerGetFlags(ReaderPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return flags */
-	return 0;
+	if (!readerPointer)
+		return 0;
+	/* TO_DO: Return mode */
+	return readerPointer->flags;
 }
 
 
@@ -668,8 +694,18 @@ viper_byte readerGetFlags(ReaderPointer const readerPointer) {
 */
 viper_intg readerShowStat(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if (!readerPointer)
+		return READER_ERROR;
 	/* TO_DO: Updates the histogram */
-	return 0;
+	int cnt = 0;
+	for (int i = 0; i < NCHAR; i++) {
+		if (readerPointer->histogram[i] > 0) {
+			//This is my test file.	
+			cnt++;
+		}
+	}
+
+	return cnt;
 }
 
 /*

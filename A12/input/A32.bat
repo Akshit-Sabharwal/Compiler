@@ -2,7 +2,7 @@
 :: SCRIPT A32 - CST8152 - Fall 2022
 
 CLS
-SET COMPILER=Boa.exe
+SET COMPILER=ViperCompiler.exe
 
 SET FILE1=INPUT0_Empty
 SET FILE2=INPUT1_Hello
@@ -12,7 +12,7 @@ SET FILE5=INPUT4_Datatypes
 SET FILE6=INPUT5_General
 
 SET ASSIGNMENT=A32
-SET EXTENSION=boa
+SET EXTENSION=vip
 SET OUTPUT=out
 SET ERROR=err
 
@@ -25,7 +25,7 @@ SET PARAM=P
 @echo off
 ECHO " _________________________________ "
 ECHO "|                                 |"
-ECHO "| ....... 'BOA' LANGUAGE ........ |"
+ECHO "| ...... 'VIPER' LANGUAGE ....... |"
 ECHO "|     __    __    __    __        |"
 ECHO "|    /  \  /  \  /  \  /  \       |"
 ECHO "| __/  __\/  __\/  __\/  __\__    |"

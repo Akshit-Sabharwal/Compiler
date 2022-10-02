@@ -1,4 +1,4 @@
-s/*
+/*
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2022
@@ -9,7 +9,7 @@ s/*
 ************************************************************
 __________________________________
 | .........VIPER LANGUAGE........|
-|   \ \        |___  ___|----\   |
+|   \ \        |___  ___|    \   |
 |    \ \       / /|  |  |  -  \  |
 |     \ \     / / |  |  | | | |  |
 |      \ \   / /  |  |  |  -  /  |
@@ -19,7 +19,6 @@ __________________________________
 |				                 |
 | ....ALGONQUIN COLLEGE- 2022F...|
 |________________________________|
-
 */
 
 /*
@@ -52,18 +51,18 @@ __________________________________
  * ............................................................................
  */
 
-/*
-***********************************************************
-* Function name: main
-* Purpose: Main function
-* Author: Paulo Sousa
-* History/Versions: Ver F22
-* Called functions: mainReader(), mainScanner(), mainParser()
-* Parameters: Command line arguments - argc, argv
-* Return value: Status
-* Algorithm: -
-*************************************************************
-*/
+ /*
+ ***********************************************************
+ * Function name: main
+ * Purpose: Main function
+ * Author: Paulo Sousa
+ * History/Versions: Ver F22
+ * Called functions: mainReader(), mainScanner(), mainParser()
+ * Parameters: Command line arguments - argc, argv
+ * Return value: Status
+ * Algorithm: -
+ *************************************************************
+ */
 
 viper_intg main(int argc, char** argv) {
 	viper_intg i;
@@ -85,16 +84,16 @@ viper_intg main(int argc, char** argv) {
 		printf("%s%c%s", "\n[Option '", PGM_READER, "': Starting READER .....]\n\n");
 		mainReader(argc, argv);
 		break;
-	/*
-	case PGM_SCANNER:
-		printf("%s%c%s", "\n[Option '", PGM_SCANNER, "': Starting SCANNER ....]\n\n");
-		mainScanner(argc, argv);
-		break;
-	case PGM_PARSER:
-		printf("%s%c%s", "\n[Option '", PGM_PARSER, "': Starting PARSER .....]\n\n");
-		mainParser(argc, argv);
-		break;
-	*/
+		/*
+		case PGM_SCANNER:
+			printf("%s%c%s", "\n[Option '", PGM_SCANNER, "': Starting SCANNER ....]\n\n");
+			mainScanner(argc, argv);
+			break;
+		case PGM_PARSER:
+			printf("%s%c%s", "\n[Option '", PGM_PARSER, "': Starting PARSER .....]\n\n");
+			mainParser(argc, argv);
+			break;
+		*/
 	default:
 		printf("%s%c%s%c%s%c%s", "* OPTIONS:\n- [",
 			PGM_READER, "] - Reader\n- [",

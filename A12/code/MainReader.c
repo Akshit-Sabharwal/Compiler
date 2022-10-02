@@ -2,22 +2,21 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Akshit Sabahrwal / Youssef Hamzo
 * Professors: Paulo Sousa
 ************************************************************
- _________________________________
-|                                 |
-| ........ Viper LANGUAGE ......  |
-|     __    __    __    __        |
-|    /  \  /  \  /  \  /  \       |
-| __/  __\/  __\/  __\/  __\__    |
-| _/  /__/  /__/  /__/  /_____|   |
-|  \_/ \   / \   / \   / \  \___  |
-|       \_/   \_/   \_/   \___o_> |
-|                                 |
-| .. ALGONQUIN COLLEGE - 2022F .. |
-|_________________________________|
-
+__________________________________
+| .........VIPER LANGUAGE........|
+|   \ \        |___  ___|    \   |
+|    \ \       / /|  |  |  -  \  |
+|     \ \     / / |  |  | | | |  |
+|      \ \   / /  |  |  |  -  /  |
+|       \ \_/ /   |  |  |  __/   |
+|        \   /    |  |  |  |     |
+|         \_/  |________|__|     |
+|				                 |
+| ....ALGONQUIN COLLEGE- 2022F...|
+|________________________________|
 */
 
 /*
@@ -41,7 +40,7 @@
  * The #define _CRT_SECURE_NO_WARNINGS should be used in MS Visual Studio projects
  * to suppress the warnings about using "unsafe" functions like fopen()
  * and standard sting library functions defined in string.h.
- * The define directive does not have any effect on other compiler projects 
+ * The define directive does not have any effect on other compiler projects
  * (Gcc, VSCode, Codeblocks, etc.).
  *.............................................................................
  */
@@ -75,11 +74,11 @@
  * (see "Compilers.h")
  */
 
-/*
- * -------------------------------------------------------------
- *  Function declarations
- * -------------------------------------------------------------
- */
+ /*
+  * -------------------------------------------------------------
+  *  Function declarations
+  * -------------------------------------------------------------
+  */
 viper_void bErrorPrint(viper_char* fmt, ...);
 viper_void displayBuffer(BufferReader* ptr_Buffer);
 viper_long getFileSize(viper_char* fname);

@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2022
-* Author: Svillen Ranev - Paulo Sousa
+* Author: Akshit Sabahrwal / Youssef Hamzo
 * Professors: Paulo Sousa
 ************************************************************
 __________________________________
@@ -17,7 +17,6 @@ __________________________________
 |				                 |
 | ....ALGONQUIN COLLEGE- 2022F...|
 |________________________________|
-
 */
 
 /*
@@ -46,8 +45,8 @@ __________________________________
  * (see the progression: reader > scanner > parser).
  * ............................................................................
  */
- 
-/* Logical constants - adapt for your language */
+
+ /* Logical constants - adapt for your language */
 #define VIPER_TRUE  1
 #define VIPER_FALSE 0
 
@@ -80,9 +79,9 @@ Programs:
 ------------------------------------------------------------
 */
 enum PROGRAMS {
-	PGM_READER	= 'R',
+	PGM_READER = 'R',
 	PGM_SCANNER = 'S',
-	PGM_PARSER	= 'P'
+	PGM_PARSER = 'P'
 };
 
 /*
@@ -91,7 +90,7 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-viper_intg mainReader  (viper_intg argc, viper_char** argv);
+viper_intg mainReader(viper_intg argc, viper_char** argv);
 /*
 viper_intg mainScanner (viper_intg argc, viper_char** argv);
 viper_intg mainParser  (viper_intg argc, viper_char** argv);

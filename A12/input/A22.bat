@@ -2,7 +2,7 @@
 :: SCRIPT A22 - CST8152 - Fall 2022
 
 CLS
-SET COMPILER=Viper
+SET COMPILER=ViperCompiler.exe
 
 SET FILE1=INPUT0_Empty
 SET FILE2=INPUT1_Hello
@@ -25,7 +25,7 @@ SET PARAM=S
 @echo off
 ECHO " _________________________________ "
 ECHO "|                                 |"
-ECHO "| ....... 'BOA' LANGUAGE ........ |"
+ECHO "| ...... 'VIPER' LANGUAGE ....... |"
 ECHO "|     __    __    __    __        |"
 ECHO "|    /  \  /  \  /  \  /  \       |"
 ECHO "| __/  __\/  __\/  __\/  __\__    |"
