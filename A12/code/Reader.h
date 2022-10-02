@@ -7,7 +7,7 @@
 ************************************************************
 __________________________________
 | .........VIPER LANGUAGE........|
-|   \ \        |___  ___|    \   |
+|   \ \        |___  ___|----\   |
 |    \ \       / /|  |  |  -  \  |
 |     \ \     / / |  |  | | | |  |
 |      \ \   / /  |  |  |  -  /  |
@@ -76,7 +76,6 @@ enum READER_MODE {
 #define READER_DEFAULT_SIZE			250		/* default initial buffer reader capacity */
 #define READER_DEFAULT_INCREMENT	10		/* default increment factor */
 
-/* Add your bit-masks constant definitions here - Defined for BOA */
 /* BITS                                (7654.3210) */
 #define READER_DEFAULT_FLAG 0x00 	/* (0000.0000)_2 = (000)_10 */
 /* TO_DO: BIT 3: FUL = Full */
