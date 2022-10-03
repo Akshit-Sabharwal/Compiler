@@ -13,7 +13,7 @@ SET FILE6=INPUT5_General
 SET FILE7=INPUT6_Big
 
 SET ASSIGNMENT=A12
-SET EXTENSION=boa
+SET EXTENSION=vip
 SET OUTPUT=out
 SET ERROR=err
 
@@ -26,7 +26,7 @@ SET PARAM=R
 @echo off
 ECHO " _________________________________ "
 ECHO "|                                 |"
-ECHO "| ....... 'BOA' LANGUAGE ........ |"
+ECHO "| ....... 'Viper' LANGUAGE ........ |"
 ECHO "|     __    __    __    __        |"
 ECHO "|    /  \  /  \  /  \  /  \       |"
 ECHO "| __/  __\/  __\/  __\/  __\__    |"

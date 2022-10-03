@@ -1,0 +1,17 @@
+# ninja log v5
+1	9	0	clean	10cefbc2b3eb0a58
+14	81	6864679636654895	CMakeFiles/ViperCompiler.dir/Reader.c.obj	fdc62d00373b118
+6	211	6864677339086809	CMakeFiles/ViperCompiler.dir/Compilers.c.obj	bccd9cb8eec65070
+12	214	6864677339086809	CMakeFiles/ViperCompiler.dir/MainReader.c.obj	75c86a3fd6ac55ed
+81	197	6864679637624893	ViperCompiler.exe	acc481a211c38007
+18	30	0	clean	10cefbc2b3eb0a58
+10	90	6864679683287627	CMakeFiles/ViperCompiler.dir/Compilers.c.obj	bccd9cb8eec65070
+13	92	6864679683297742	CMakeFiles/ViperCompiler.dir/Reader.c.obj	fdc62d00373b118
+18	109	6864679683498042	CMakeFiles/ViperCompiler.dir/MainReader.c.obj	75c86a3fd6ac55ed
+109	229	6864679684460465	ViperCompiler.exe	acc481a211c38007
+12	253	6864685444621515	CMakeFiles/ViperCompiler.dir/MainReader.c.obj	75c86a3fd6ac55ed
+7	254	6864685444621515	CMakeFiles/ViperCompiler.dir/Reader.c.obj	fdc62d00373b118
+1	254	6864685444621515	CMakeFiles/ViperCompiler.dir/Compilers.c.obj	bccd9cb8eec65070
+254	368	6864685445543299	ViperCompiler.exe	acc481a211c38007
+2	456	6864696369975726	CMakeFiles/ViperCompiler.dir/Reader.c.obj	fdc62d00373b118
+457	582	6864696370946608	ViperCompiler.exe	acc481a211c38007

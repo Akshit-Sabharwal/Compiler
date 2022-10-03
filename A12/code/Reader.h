@@ -3,6 +3,8 @@
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2022
 * Author: Svillen Ranev - Paulo Sousa
+* Modified by: Youssef Hamzo - Akshit Sabharwal
+* Lab Section: 301
 * Professors: Paulo Sousa
 ************************************************************
 __________________________________
