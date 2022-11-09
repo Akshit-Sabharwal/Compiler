@@ -8,7 +8,8 @@
       "projectTarget": "ViperCompiler.exe",
       "name": "ViperCompiler.exe",
       "args": [
-        "R",
+       // "R",
+        "S",
         "README.txt"
       ]
     }
