@@ -132,6 +132,7 @@ Token tokenizer(void) {
 		/* Cases for spaces */
 		case ' ':
 		case '\t':
+		case ',':
 		case '\f':
 			break;
 		case '\n':
@@ -159,6 +160,9 @@ Token tokenizer(void) {
 		/* Cases for symbols */
 		case ';':
 			currentToken.code = EOS_T;
+			return currentToken;
+		case '(':
+			currentToken.code = LPR_T;
 			return currentToken;
 		case ')':
 			currentToken.code = RPR_T;
@@ -368,7 +372,6 @@ viper_intg nextClass(viper_char c) {
 		val = 6;
 		break;
 	case CHARSEOF0:
-	case INDENT:
 	case CHARSEOF255:
 		val = 8;
 		break;
@@ -614,6 +617,9 @@ viper_void printToken(Token t) {
 	case MNID_T:
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
+	case LBR_T:
+		printf("LBR_T\n");
+		break;
 	case VAR_T:
 		printf("VAR_T\t\t%s\n", t.attribute.idLexeme);
 		break;
@@ -632,9 +638,6 @@ viper_void printToken(Token t) {
 		break;
 	case INL_T:
 		printf("INL_T\t\t%d\n", t.attribute.intValue);
-		break;
-	case LBR_T:
-		printf("LBR_T\n");
 		break;
 	case ARI_T:
 		printf("ARI_T\t\t%d\n", t.attribute.arithmeticOperator);

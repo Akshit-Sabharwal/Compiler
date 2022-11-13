@@ -1,3 +1,8 @@
+# VIPER program to find simple interest
+# for given principal amount, time and
+# rate of interest.
+
+
 def simple_interest():
     print("The principal is" + p )
     print("The time period is" + t )
