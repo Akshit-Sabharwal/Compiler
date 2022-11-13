@@ -1,0 +1,16 @@
+#Python program to add two numbers
+ 
+num1 = 15
+num2 = 12.0
+ 
+#Adding the two numbers
+sum = num1 + num2
+ 
+#printing values
+print("Sum")
+
+/
++
+-
+=
+==

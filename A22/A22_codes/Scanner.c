@@ -56,20 +56,20 @@
 
 /*
 ----------------------------------------------------------------
-TO_DO: Global vars definitions
+ Global vars definitions
 ----------------------------------------------------------------
 */
 
 /* Global objects - variables */
 /* This buffer is used as a repository for string literals. */
 extern ReaderPointer stringLiteralTable;	/* String literal table */
-boa_intg line;								/* Current line number of the source code */
-extern boa_intg errorNumber;				/* Defined in platy_st.c - run-time error number */
+viper_intg line;								/* Current line number of the source code */
+extern viper_intg errorNumber;				/* Defined in platy_st.c - run-time error number */
 
-extern boa_intg stateType[];
-extern boa_char* keywordTable[];
+extern viper_intg stateType[];
+extern viper_char* keywordTable[];
 extern PTR_ACCFUN finalStateTable[];
-extern boa_intg transitionTable[][TABLE_COLUMNS];
+extern viper_intg transitionTable[][TABLE_COLUMNS];
 
 /* Local(file) global objects - variables */
 static ReaderPointer lexemeBuffer;			/* Pointer to temporary lexeme buffer */
@@ -81,9 +81,9 @@ static ReaderPointer sourceBuffer;			/* Pointer to input source buffer */
  *		This function initializes the scanner using defensive programming.
  ***********************************************************
  */
- /* TO_DO: Follow the standard and adjust datatypes */
+ /*  Follow the standard and adjust datatypes */
 
-boa_intg startScanner(ReaderPointer psc_buf) {
+viper_intg startScanner(ReaderPointer psc_buf) {
 	/* in case the buffer has been read previously  */
 	readerRecover(psc_buf);
 	readerClear(stringLiteralTable);
@@ -108,14 +108,14 @@ Token tokenizer(void) {
 	/* TO_DO: Follow the standard and adjust datatypes */
 
 	Token currentToken = { 0 }; /* token to return after pattern recognition. Set all structure members to 0 */
-	boa_char c;	/* input symbol */
-	boa_intg state = 0;		/* initial state of the FSM */
-	boa_intg lexStart;		/* start offset of a lexeme in the input char buffer (array) */
-	boa_intg lexEnd;		/* end offset of a lexeme in the input char buffer (array)*/
+	viper_char c;	/* input symbol */
+	viper_intg state = 0;		/* initial state of the FSM */
+	viper_intg lexStart;		/* start offset of a lexeme in the input char buffer (array) */
+	viper_intg lexEnd;		/* end offset of a lexeme in the input char buffer (array)*/
 
-	boa_intg lexLength;		/* token length */
-	boa_intg i;				/* counter */
-	boa_char newc;			/* new char */
+	viper_intg lexLength;		/* token length */
+	viper_intg i;				/* counter */
+	viper_char newc;			/* new char */
 	
 	while (1) { /* endless loop broken by token returns it will generate a warning */
 		c = readerGetChar(sourceBuffer);
@@ -137,13 +137,28 @@ Token tokenizer(void) {
 		case '\n':
 			line++;
 			break;
-
+		case ':':
+			currentToken.code = CLN_T;
+			return currentToken;
+		case '+' :
+			currentToken.code = ARI_T;
+			currentToken.attribute.arithmeticOperator = OP_ADD;
+			return currentToken;
+		case '-':
+			currentToken.code = ARI_T;
+			currentToken.attribute.arithmeticOperator = OP_SUB;
+			return currentToken;
+		case '*':
+			currentToken.code = ARI_T;
+			currentToken.attribute.arithmeticOperator = OP_MUL;
+			return currentToken;
+		case '/':
+			currentToken.code = ARI_T;
+			currentToken.attribute.arithmeticOperator = OP_DIV;
+			return currentToken;
 		/* Cases for symbols */
 		case ';':
 			currentToken.code = EOS_T;
-			return currentToken;
-		case '(':
-			currentToken.code = LPR_T;
 			return currentToken;
 		case ')':
 			currentToken.code = RPR_T;
@@ -154,6 +169,64 @@ Token tokenizer(void) {
 		case '}':
 			currentToken.code = RBR_T;
 			return currentToken;
+		case '=':
+			 newc = readerGetChar(sourceBuffer);
+			 if (newc == '=') { //if its == 
+
+				 currentToken.code = REL_T;
+				 currentToken.attribute.relationalOperator = OP_EQ;
+				 return currentToken;
+			 }
+			 else {   //otherwise its =
+				 readerRetract(sourceBuffer);
+				 currentToken.code = EQS_T;
+				 return currentToken;
+			 }
+		case '<':
+			currentToken.code = REL_T;
+			currentToken.attribute.relationalOperator = OP_LT;
+			return currentToken;
+		case '>':
+			currentToken.code = REL_T;
+			currentToken.attribute.relationalOperator = OP_GT;
+			return currentToken;
+		case '!':
+			newc = readerGetChar(sourceBuffer);
+			if (newc == '=') { //if its != 
+				currentToken.code = REL_T;
+				currentToken.attribute.relationalOperator = OP_NE;
+				return currentToken;
+			}
+			else {   //otherwise its only !
+				readerRetract(sourceBuffer);
+				currentToken.code = LOG_T;
+				currentToken.attribute.logicalOperator = OP_NOT;
+				return currentToken;
+			}
+		case '&':
+			newc = readerGetChar(sourceBuffer);
+			if (newc == '&') { //if its != 
+				currentToken.code = LOG_T;
+				currentToken.attribute.logicalOperator = OP_AND;
+				return currentToken;
+			}
+			else {   //otherwise its only &
+				readerRetract(sourceBuffer);
+				currentToken.code = ERR_T;
+				return currentToken;
+			}
+		case '|':
+			newc = readerGetChar(sourceBuffer);
+			if (newc == '|') { //if its || 
+				currentToken.code = LOG_T;
+				currentToken.attribute.logicalOperator = OP_OR;
+				return currentToken;
+			}
+			else {   //otherwise 
+				readerRetract(sourceBuffer);
+				currentToken.code = ERR_T;
+				return currentToken;
+			}
 		/* Comments */
 		case '#':
 			newc = readerGetChar(sourceBuffer);
@@ -166,7 +239,7 @@ Token tokenizer(void) {
 				else if (c == '\n') {
 					line++;
 				}
-			} while (c != '#' && c != CHARSEOF0 && c != CHARSEOF255);
+			} while (c != '\n' && c != CHARSEOF0 && c != CHARSEOF255);
 			break;
 		/* Cases for END OF FILE */
 		case CHARSEOF0:
@@ -191,16 +264,20 @@ Token tokenizer(void) {
 			lexStart = readerGetPosRead(sourceBuffer) - 1;
 			readerSetMark(sourceBuffer, lexStart);
 			int pos = 0;
-			while (stateType[state] == NOFS) {
+			while (stateType[state] == NOAS) {
 				c = readerGetChar(sourceBuffer);
+				
 				state = nextState(state, c);
 				pos++;
 			}
-			if (stateType[state] == FSWR)
+			if (c == ' ') {
+					readerRetract(sourceBuffer);
+				}
+			if (stateType[state] == ASWR)
 				readerRetract(sourceBuffer);
 			lexEnd = readerGetPosRead(sourceBuffer);
 			lexLength = lexEnd - lexStart;
-			lexemeBuffer = readerCreate((boa_intg)lexLength + 2, 0, MODE_FIXED);
+			lexemeBuffer = readerCreate((viper_intg)lexLength + 2, 0, MODE_FIXED);
 			if (!lexemeBuffer) {
 				fprintf(stderr, "Scanner error: Can not create buffer\n");
 				exit(1);
@@ -210,7 +287,7 @@ Token tokenizer(void) {
 				readerAddChar(lexemeBuffer, readerGetChar(sourceBuffer));
 			readerAddChar(lexemeBuffer, READER_TERMINATOR);
 			currentToken = (*finalStateTable[state])(readerGetContent(lexemeBuffer, 0));
-			readerRestore(lexemeBuffer); //xxx
+			readerRestore(lexemeBuffer); 
 			return currentToken;
 		} // switch
 
@@ -245,9 +322,9 @@ Token tokenizer(void) {
  */
  /* TO_DO: Just change the datatypes */
 
-boa_intg nextState(boa_intg state, boa_char c) {
-	boa_intg col;
-	boa_intg next;
+viper_intg nextState(viper_intg state, viper_char c) {
+	viper_intg col;
+	viper_intg next;
 	col = nextClass(c);
 	next = transitionTable[state][col];
 	if (DEBUG)
@@ -275,21 +352,25 @@ boa_intg nextState(boa_intg state, boa_char c) {
 /* Adjust the logic to return next column in TT */
 /*	[A-z](0), [0-9](1),	_(2), &(3), "(4), SEOF(5), other(6) */
 
-boa_intg nextClass(boa_char c) {
-	boa_intg val = -1;
+viper_intg nextClass(viper_char c) {
+	viper_intg val = -1;
 	switch (c) {
 	case CHRCOL2:
 		val = 2;
 		break;
 	case CHRCOL3:
-		val = 3;
+		val = 3 ;
 		break;
-	case CHRCOL4:
-		val = 4;
+	case CHRCOL5: 
+		val = 5;
+		break;
+	case CHRCOL6:
+		val = 6;
 		break;
 	case CHARSEOF0:
+	case INDENT:
 	case CHARSEOF255:
-		val = 5;
+		val = 8;
 		break;
 	default:
 		if (isalpha(c))
@@ -297,7 +378,7 @@ boa_intg nextClass(boa_char c) {
 		else if (isdigit(c))
 			val = 1;
 		else
-			val = 6;
+			val = 4;
 	}
 	return val;
 }
@@ -315,24 +396,61 @@ boa_intg nextClass(boa_char c) {
   */
   /* TO_DO: Adjust the function for IL */
 
-Token funcIL(boa_char lexeme[]) {
+Token funcIL(viper_char lexeme[]) {
 	Token currentToken = { 0 };
-	boa_long tlong;
+	viper_long tlong;
 	if (lexeme[0] != '\0' && strlen(lexeme) > NUM_LEN) {
-		currentToken = (*finalStateTable[ESNR])(lexeme);
+		currentToken = funcErr(lexeme);
 	}
 	else {
 		tlong = atol(lexeme);
 		if (tlong >= 0 && tlong <= SHRT_MAX) {
 			currentToken.code = INL_T;
-			currentToken.attribute.intValue = (boa_intg)tlong;
+			currentToken.attribute.intValue = (viper_intg)tlong;
 		}
 		else {
-			currentToken = (*finalStateTable[ESNR])(lexeme);
+			currentToken = funcErr(lexeme);
 		}
 	}
 	return currentToken;
 }
+
+Token funcFloat(viper_char lexeme[])
+{
+	Token currentToken = { 0 };
+	viper_doub treal;
+	if (lexeme[strlen(lexeme) - 1] == '\0') {
+		currentToken = funcErr(lexeme);
+	}else {
+		treal = atof(lexeme);
+		if (treal >= 0.0 && treal <= FLT_MAX) {
+			currentToken.code = FNL_T;
+			currentToken.attribute.floatValue = (viper_real)treal;
+		}
+		else {
+			currentToken = funcErr(lexeme);
+		}
+	}
+
+	return currentToken;
+}
+
+/*
+*
+* Function get called when it's not a keyword or 
+* method, so lexeme get consiered as variable
+* 
+* 
+*/
+Token funcVar(viper_char lexeme[])
+{
+	Token currentToken = { 0 };
+	currentToken.code = VAR_T;
+	strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
+	currentToken.attribute.idLexeme[VID_LEN] = CHARSEOF0;
+	return currentToken;
+}
+
 
 
 /*
@@ -349,25 +467,27 @@ Token funcIL(boa_char lexeme[]) {
  */
  /* TO_DO: Adjust the function for ID */
 
-Token funcID(boa_char lexeme[]) {
+Token funcID(viper_char lexeme[]) {
 	Token currentToken = { 0 };
 	size_t length = strlen(lexeme);
-	boa_char lastch = lexeme[length - 1];
-	boa_intg isID = BOA_FALSE;
+	viper_char lastch = lexeme[length - 1];
+
+	viper_intg isID = VIPER_FALSE;
 	switch (lastch) {
 		case MNIDPREFIX:
 			currentToken.code = MNID_T;
-			isID = BOA_TRUE;
+			isID = VIPER_TRUE;
 			break;
 		default:
 			// Test Keyword
 			currentToken = funcKEY(lexeme);
 			break;
 	}
-	if (isID == BOA_TRUE) {
+	if (isID == VIPER_TRUE) {
 		strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
 		currentToken.attribute.idLexeme[VID_LEN] = CHARSEOF0;
 	}
+
 	return currentToken;
 }
 
@@ -384,9 +504,9 @@ Token funcID(boa_char lexeme[]) {
  */
 /* TO_DO: Adjust the function for SL */
 
-Token funcSL(boa_char lexeme[]) {
+Token funcSL(viper_char lexeme[]) {
 	Token currentToken = { 0 };
-	boa_intg i = 0, len = (boa_intg)strlen(lexeme);
+	viper_intg i = 0, len = (viper_intg)strlen(lexeme);
 	currentToken.attribute.contentString = readerGetPosWrte(stringLiteralTable);
 	for (i = 1; i < len - 1; i++) {
 		if (lexeme[i] == '\n')
@@ -417,9 +537,10 @@ Token funcSL(boa_char lexeme[]) {
  */
  /* TO_DO: Adjust the function for Keywords */
 
-Token funcKEY(boa_char lexeme[]) {
+Token funcKEY(viper_char lexeme[]) {
 	Token currentToken = { 0 };
-	boa_intg kwindex = -1, j = 0;
+	viper_intg kwindex = -1, j = 0;
+	
 	for (j = 0; j < KWT_SIZE; j++)
 		if (!strcmp(lexeme, &keywordTable[j][0]))
 			kwindex = j;
@@ -428,8 +549,10 @@ Token funcKEY(boa_char lexeme[]) {
 		currentToken.attribute.codeType = kwindex;
 	}
 	else {
-		currentToken = funcErr(lexeme);
-	}
+		currentToken = funcVar(lexeme);
+		}
+	
+	
 	return currentToken;
 }
 
@@ -446,9 +569,9 @@ Token funcKEY(boa_char lexeme[]) {
  */
  /* TO_DO: Adjust the function for Errors */
 
-Token funcErr(boa_char lexeme[]) {
+Token funcErr(viper_char lexeme[]) {
 	Token currentToken = { 0 };
-	boa_intg i = 0, len = (boa_intg)strlen(lexeme);
+	viper_intg i = 0, len = (viper_intg)strlen(lexeme);
 	if (len > ERR_LEN) {
 		strncpy(currentToken.attribute.errLexeme, lexeme, ERR_LEN - 3);
 		currentToken.attribute.errLexeme[ERR_LEN - 3] = CHARSEOF0;
@@ -464,15 +587,14 @@ Token funcErr(boa_char lexeme[]) {
 	return currentToken;
 }
 
-
 /*
  ************************************************************
  * The function prints the token returned by the scanner
  ***********************************************************
  */
 
-boa_void printToken(Token t) {
-	extern boa_char* keywordTable[]; /* link to keyword table in */
+viper_void printToken(Token t) {
+	extern viper_char* keywordTable[]; /* link to keyword table in */
 	switch (t.code) {
 	case RTE_T:
 		printf("RTE_T\t\t%s", t.attribute.errLexeme);
@@ -492,18 +614,30 @@ boa_void printToken(Token t) {
 	case MNID_T:
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
+	case VAR_T:
+		printf("VAR_T\t\t%s\n", t.attribute.idLexeme);
+		break;
 	case STR_T:
-		printf("STR_T\t\t%d\t ", (boa_intg)t.attribute.codeType);
-		printf("%s\n", readerGetContent(stringLiteralTable, (boa_intg)t.attribute.codeType));
+		printf("STR_T\t\t%d\t ", (viper_intg)t.attribute.codeType);
+		printf("%s\n", readerGetContent(stringLiteralTable, (viper_intg)t.attribute.codeType));
 		break;
 	case LPR_T:
 		printf("LPR_T\n");
 		break;
+	case FNL_T:
+		printf("FNL_T\t\t%.4f\n", t.attribute.floatValue);
+		break;
 	case RPR_T:
 		printf("RPR_T\n");
 		break;
+	case INL_T:
+		printf("INL_T\t\t%d\n", t.attribute.intValue);
+		break;
 	case LBR_T:
 		printf("LBR_T\n");
+		break;
+	case ARI_T:
+		printf("ARI_T\t\t%d\n", t.attribute.arithmeticOperator);
 		break;
 	case RBR_T:
 		printf("RBR_T\n");
@@ -514,11 +648,20 @@ boa_void printToken(Token t) {
 	case EOS_T:
 		printf("EOS_T\n");
 		break;
+	case CLN_T:
+		printf("CLN_T\n");
+		break;
+	case EQS_T:
+		printf("EQS_T\n");
+		break;
+	case REL_T:
+		printf("REL_T\n");
+		break;
+	case LOG_T:
+		printf("LOG_T\n");
+		break;
 	default:
 		printf("Scanner error: invalid token code: %d\n", t.code);
 	}
 }
 
-/*
-TO_DO: (If necessary): HERE YOU WRITE YOUR ADDITIONAL FUNCTIONS (IF ANY).
-*/

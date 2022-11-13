@@ -61,10 +61,10 @@
 
  /* Global objects - variables (used in other codes as external) */
 ReaderPointer stringLiteralTable;	/* This buffer implements String Literal Table */
-boa_intg errorNumber;				/* Run-time error number = 0 by default (ANSI) */
+viper_intg errorNumber;				/* Run-time error number = 0 by default (ANSI) */
 
 /* External objects */
-extern boa_intg line; /* Source code line numbers - defined in scanner.c */
+extern viper_intg line; /* Source code line numbers - defined in scanner.c */
 extern Token tokenizer(sofia_nul);
 
 /*
@@ -72,10 +72,10 @@ extern Token tokenizer(sofia_nul);
  *  Function declarations
  * -------------------------------------------------------------
  */
-boa_void printScannerError(boa_char* fmt, ...);
-boa_void displayScanner(BufferReader* ptrBuffer);
-boa_long getScannerFilesize(boa_char* fname);
-boa_void printToken(Token t);
+viper_void printScannerError(viper_char* fmt, ...);
+viper_void displayScanner(BufferReader* ptrBuffer);
+viper_long getScannerFilesize(viper_char* fname);
+viper_void printToken(Token t);
 
 /*
 ************************************************************
@@ -87,12 +87,12 @@ boa_void printToken(Token t);
  ***********************************************************
  */
 
-boa_intg mainScanner(boa_intg argc, boa_char** argv) {
+viper_intg mainScanner(viper_intg argc, viper_char** argv) {
 
 	ReaderPointer sourceBuffer;		/* Pointer to input (source) buffer */
 	FILE* fileHandler;				/* Input file handle */
 	Token currentToken;				/* Token produced by the scanner */
-	boa_intg loadSize = 0;			/* The size of the file loaded in the buffer */
+	viper_intg loadSize = 0;			/* The size of the file loaded in the buffer */
 
 	/* Check for correct arrguments - source file name */
 	if (argc <= 2) {
@@ -119,7 +119,6 @@ boa_intg mainScanner(boa_intg argc, boa_char** argv) {
 		printScannerError("%s%s%s", argv[0], ": Cannot open file: ", argv[2]);
 		exit(EXIT_FAILURE);
 	}
-
 	/* Load source file into input buffer  */
 	printf("Reading file %s ....Please wait\n", argv[2]);
 	loadSize = readerLoad(sourceBuffer, fileHandler);
@@ -190,7 +189,7 @@ boa_intg mainScanner(boa_intg argc, boa_char** argv) {
 ***********************************************************
 */
 
-boa_void printScannerError(boa_char* fmt, ...) {
+viper_void printScannerError(viper_char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 	(void)vfprintf(stderr, fmt, ap);
@@ -208,7 +207,7 @@ boa_void printScannerError(boa_char* fmt, ...) {
  ***********************************************************
  */
 
-boa_void displayScanner(BufferReader* ptrBuffer) {
+viper_void displayScanner(BufferReader* ptrBuffer) {
 	printf("\nPrinting buffer parameters:\n\n");
 	printf("The capacity of the buffer is:  %d\n", readerGetSize(ptrBuffer));
 	printf("The current size of the buffer is:  %d\n", readerGetPosWrte(ptrBuffer));
@@ -227,9 +226,9 @@ boa_void displayScanner(BufferReader* ptrBuffer) {
  ***********************************************************
  */
 
-boa_long getScannerFilesize(boa_char* fname) {
+viper_long getScannerFilesize(viper_char* fname) {
 	FILE* fileInput;
-	boa_long fileLength;
+	viper_long fileLength;
 	fileInput = fopen(fname, "r");
 	if (fileInput == NULL) {
 		printScannerError("%s%s", "Cannot open file: ", fname);

@@ -1,0 +1,8 @@
+# Viper program to demonstrate
+# operators
+if a > 1
+   print("It is greater than 1")
+elif a < 1
+  print(" It is lesser than 1")
+else 
+  print(" It is 1")   
