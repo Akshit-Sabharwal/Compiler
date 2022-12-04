@@ -1,0 +1,8 @@
+#Viper Program with Expression
+def main():
+  a = 12.0
+  b = 1
+  c = "does this work"
+  multiplication = a * 25
+  addition = b + a
+  subtraction = b - a 

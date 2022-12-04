@@ -1,0 +1,10 @@
+#Python program to find the area of square
+def main():
+print("Enter the length of Square")
+input(a)
+
+#Multipling the side of the square
+area = a * a
+
+#printing area
+print(area)

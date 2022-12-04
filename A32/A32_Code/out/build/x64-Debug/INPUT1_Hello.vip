@@ -1,0 +1,5 @@
+# Viper Example 2:
+def main():
+    print("Hello Viper!")
+
+
