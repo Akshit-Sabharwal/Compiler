@@ -39,7 +39,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Compilers/Compiler/A32/Code/out/build/x64-Debug"
+			"value" : "c:/Compilers Final A32/Compiler/A32/A32_Code/out/build/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -515,7 +515,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Compilers/Compiler/A32/Code"
+			"value" : "C:/Compilers Final A32/Compiler/A32/A32_Code"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -527,7 +527,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Compilers/Compiler/A32/Code/out/install/x64-Debug"
+			"value" : "C:/Compilers Final A32/Compiler/A32/A32_Code/out/install/x64-Debug"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -1063,7 +1063,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Compilers/Compiler/A32/Code/out/build/x64-Debug"
+			"value" : "C:/Compilers Final A32/Compiler/A32/A32_Code/out/build/x64-Debug"
 		},
 		{
 			"name" : "ViperCompiler_IS_TOP_LEVEL",
@@ -1087,7 +1087,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Compilers/Compiler/A32/Code"
+			"value" : "C:/Compilers Final A32/Compiler/A32/A32_Code"
 		}
 	],
 	"kind" : "cache",

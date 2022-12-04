@@ -262,7 +262,7 @@ viper_void optionalStatements() {
 	default:
 		; // Empty
 	}
-	//printf("%s%s\n", STR_LANGNAME, ": Optional statements parsed");
+	printf("%s%s\n", STR_LANGNAME, ": Optional statements parsed");
 }
 
 /*

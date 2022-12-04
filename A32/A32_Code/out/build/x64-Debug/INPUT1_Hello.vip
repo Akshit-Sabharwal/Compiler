@@ -1,5 +1,6 @@
 # Viper Example 2:
+#  The program is "lexically" correct
+#  and should not generate any error 
 def main():
     print("Hello Viper!")
-
 

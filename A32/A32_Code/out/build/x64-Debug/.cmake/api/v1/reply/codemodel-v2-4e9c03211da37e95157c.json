@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Compilers/Compiler/A32/Code/out/build/x64-Debug",
-		"source" : "C:/Compilers/Compiler/A32/Code"
+		"build" : "C:/Compilers Final A32/Compiler/A32/A32_Code/out/build/x64-Debug",
+		"source" : "C:/Compilers Final A32/Compiler/A32/A32_Code"
 	},
 	"version" : 
 	{
